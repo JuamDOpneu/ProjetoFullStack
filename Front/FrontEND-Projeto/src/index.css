@@ -1,0 +1,560 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap');
+
+:root {
+  /* Variáveis Light Mode */
+  --bg-body: #f0f8ff;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --text-primary: #333;
+  --text-secondary: #555;
+  --input-bg: #fff;
+  --input-border: #ccc;
+  --nav-bg: linear-gradient(135deg, #007bff, #0056b3);
+  --nav-text: white;
+  --shadow-color: rgba(0,0,0,0.1);
+}
+
+[data-theme='dark'] {
+  /* Variáveis Dark Mode */
+  --bg-body: #121212;
+  --bg-card: rgba(30, 30, 30, 0.95);
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaa;
+  --input-bg: #2c2c2c;
+  --input-border: #444;
+  --nav-bg: linear-gradient(135deg, #1a1a1a, #333);
+  --nav-text: #e0e0e0;
+  --shadow-color: rgba(0,0,0,0.5);
+}
+
+/* Reset básico e Box Sizing */
+* {
+  box-sizing: border-box;
+}
+
+body { 
+  font-family: 'Fredoka', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  margin: 0; 
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app-container { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 1rem; 
+  width: 100%; /* Garante que não estoure no mobile */
+}
+
+/* Conteúdo Principal */
+.content { 
+  background: var(--bg-card);
+  padding: 2rem; 
+  border-radius: 16px; 
+  min-height: 70vh;
+  box-shadow: 0 8px 24px var(--shadow-color);
+  width: 100%;
+}
+
+/* ================= NAVEGAÇÃO RESPONSIVA ================= */
+.navigation { 
+  display: flex;
+  flex-wrap: wrap; /* Permite quebrar linha se faltar espaço */
+  justify-content: center; /* Centraliza no mobile */
+  gap: 1rem; 
+  align-items: center;
+  background: var(--nav-bg);
+  padding: 1rem; 
+  border-radius: 12px; 
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.navigation a { 
+  color: var(--nav-text); 
+  text-decoration: none; 
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem; 
+  border-radius: 8px; 
+  transition: background 0.2s; 
+  white-space: nowrap; /* Impede que o texto do link quebre */
+}
+
+.navigation a:hover, .navigation a.active { 
+  background: rgba(255, 255, 255, 0.2); 
+}
+
+.theme-toggle-btn {
+  margin-left: auto; 
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.5);
+  color: var(--nav-text);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+
+/* ================= FORMULÁRIOS ================= */
+.form-page { 
+  max-width: 500px; 
+  margin: 0 auto; 
+  width: 100%;
+}
+
+.form-group input, .form-group select { 
+  width: 100%; 
+  padding: 0.8rem; 
+  border: 2px solid var(--input-border); 
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* ================= JOGO (GRID RESPONSIVO) ================= */
+/* Barra de status do jogo (Tempo, Movimentos) */
+.game-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  background: rgba(0,0,0,0.05);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.game-board { 
+  display: grid; 
+  /* Mágica do Grid: ajusta colunas automaticamente, minimo de 80px no mobile */
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+  gap: 0.8rem; 
+  margin-top: 1rem;
+}
+
+.memory-card { 
+  aspect-ratio: 3/4; /* Mantém a proporção do cartão sempre igual */
+  width: 100%; 
+  perspective: 1000px; 
+  cursor: pointer; 
+}
+
+.card-inner { 
+  position: relative; 
+  width: 100%; 
+  height: 100%; 
+  transition: transform 0.6s; 
+  transform-style: preserve-3d; 
+}
+
+.memory-card.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back { 
+  position: absolute; width: 100%; height: 100%; 
+  backface-visibility: hidden; 
+  border: 2px solid #fff; border-radius: 8px; 
+  box-shadow: 0 2px 5px var(--shadow-color);
+  display: grid; place-items: center;
+}
+
+.card-front { 
+  background: linear-gradient(135deg, #007bff, #0056b3); 
+  font-size: 2rem; color: white; 
+}
+
+.card-back { 
+  background: #fff; transform: rotateY(180deg); 
+  padding: 4px;
+}
+.card-back img { 
+  max-width: 90%; max-height: 80%; object-fit: contain; 
+}
+
+/* ================= PERFIL ================= */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap; /* Permite cair para a linha de baixo no mobile */
+}
+
+.stat-box {
+  flex: 1;
+  min-width: 140px; /* Tamanho mínimo antes de quebrar linha */
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* ================= MEDIA QUERIES (Mobile) ================= */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0.5rem;
+  }
+  
+  .content {
+    padding: 1.5rem 1rem; /* Menos padding interno */
+  }
+
+  /* Navegação vira scroll horizontal ou empilha */
+  .navigation {
+    padding: 0.8rem;
+    gap: 0.5rem;
+  }
+  
+  .navigation a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .theme-toggle-btn {
+    margin-left: 0; /* Remove o auto margin para centralizar junto */
+  }
+
+  /* Ajustes do Jogo */
+  .game-stats-bar {
+    gap: 0.8rem;
+    flex-direction: column; /* Empilha as informações */
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .game-board {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Cartas menores */
+    gap: 0.5rem;
+  }
+  
+  .card-front { font-size: 1.5rem; } /* Interrogação menor */
+  
+  .btn {
+    width: 100%; /* Botões ocupam largura total no celular */
+    margin-bottom: 0.5rem;
+  }
+
+  /* Perfil */
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+/* ================= BOTÕES ESTILIZADOS ================= */
+
+/* Estilo Base do Botão */
+.btn {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 12px; /* Cantos arredondados */
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* Isso impede que o texto seja selecionado ao clicar rápido */
+  user-select: none; 
+}
+
+/* Efeito de Clique (Aperta para baixo) */
+.btn:active:not([disabled]) {
+  transform: translateY(4px); /* Desce o botão */
+  box-shadow: none !important; /* Remove a sombra inferior */
+}
+
+/* Botão Desabilitado */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+/* --- VARIANTES DE CORES --- */
+
+/* 1. Primary (Azul - Padrão) */
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  /* Sombra sólida embaixo para dar efeito 3D */
+  box-shadow: 0 4px 0 #0056b3; 
+}
+.btn-primary:hover:not([disabled]) {
+  background-color: #0069d9;
+}
+
+/* 2. Secondary (Cinza - Voltar/Cancelar) */
+.btn-secondary {
+  background-color: #e2e6ea;
+  color: #333;
+  box-shadow: 0 4px 0 #c8d1d5;
+}
+.btn-secondary:hover:not([disabled]) {
+  background-color: #dbe0e5;
+}
+
+/* 3. Success (Verde - Iniciar/Salvar) */
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 4px 0 #1e7e34;
+}
+.btn-success:hover:not([disabled]) {
+  background-color: #218838;
+}
+
+/* 4. Danger (Vermelho - Sair/Deletar) */
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 4px 0 #bd2130;
+}
+.btn-danger:hover:not([disabled]) {
+  background-color: #c82333;
+}
+
+/* Ajuste para Dark Mode (Opcional: o cinza fica mais escuro) */
+[data-theme='dark'] .btn-secondary {
+  background-color: #444;
+  color: #fff;
+  box-shadow: 0 4px 0 #222;
+}
+[data-theme='dark'] .btn-secondary:hover:not([disabled]) {
+  background-color: #555;
+}
+/* ================= RODAPÉ ================= */
+.footer { 
+  text-align: center;      /* Centraliza o texto */
+  margin-top: 2rem;        /* Espaço acima do rodapé */
+  margin-bottom: 1rem;     /* Espaço abaixo (opcional) */
+  color: var(--text-secondary); 
+  font-weight: 500; 
+  width: 100%;             /* Garante que ocupe a largura toda */
+  padding: 1rem 0;
+}
+
+.footer p {
+  margin: 0;              /* Remove margens padrão do parágrafo */
+}
+/* ================= ADMIN CARD LIST (Grid) ================= */
+
+/* Container da Grade */
+.admin-card-grid {
+  display: grid;
+  /* Cria colunas automáticas com largura mínima de 220px */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* O Cartão Individual na lista do Admin */
+.admin-card-item {
+  background: var(--bg-card); /* Usa a cor do tema (Light/Dark) */
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  overflow: hidden; /* Garante que a imagem não saia das bordas */
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-card-item:hover {
+  transform: translateY(-5px); /* Efeito de levitar ao passar o mouse */
+  box-shadow: 0 8px 15px var(--shadow-color);
+}
+
+/* A Imagem do Cartão */
+.admin-card-image {
+  width: 100%;
+  height: 160px; /* Altura fixa para ficar alinhado */
+  object-fit: contain; /* Mostra a imagem inteira sem cortar */
+  background-color: #f0f0f0; /* Fundo cinza caso a imagem seja png transparente */
+  border-bottom: 1px solid var(--input-border);
+  padding: 10px;
+}
+
+/* Conteúdo de Texto (Nome e Tema) */
+.admin-card-content {
+  padding: 1rem;
+  flex-grow: 1; /* Empurra os botões para baixo */
+  text-align: center;
+}
+
+.admin-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.admin-card-theme {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  background: rgba(0,0,0,0.05);
+  padding: 4px 8px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Área dos Botões (Editar/Excluir) */
+.admin-card-actions {
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  border-top: 1px solid var(--input-border);
+  background: rgba(0,0,0,0.02);
+}
+
+.admin-card-actions button {
+  flex: 1; /* Botões ocupam o mesmo tamanho */
+  font-size: 0.9rem;
+  padding: 0.5rem;
+}
+/* ================= PERFIL ESTILIZADO ================= */
+
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* --- Cabeçalho do Perfil (Card do Usuário) --- */
+.profile-header-card {
+  background: var(--bg-card);
+  border: 1px solid var(--input-border);
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de fundo decorativo */
+.profile-header-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, #007bff, #00d2ff);
+}
+
+/* Wrapper do Avatar (para o efeito de hover) */
+.avatar-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 4px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  flex-shrink: 0; /* Não deixa esmagar no mobile */
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: filter 0.3s;
+}
+
+/* Camada preta com ícone de câmera que aparece ao passar o mouse */
+.avatar-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: white;
+  font-size: 2rem;
+}
+
+.avatar-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+/* Informações de Texto */
+.profile-info h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: var(--text-primary);
+}
+
+.profile-info p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* --- Grid de Estatísticas --- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  text-align: center;
+  border: 1px solid var(--input-border);
+  transition: transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.stat-card .value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Cores específicas para os cards */
+.stat-card.blue { border-bottom: 4px solid #007bff; color: #007bff; }
+.stat-card.green { border-bottom: 4px solid #28a745; color: #28a745; }
+.stat-card.purple { border-bottom: 4px solid #6f42c1; color: #6f42c1; }
+
+/* Responsividade para o Perfil */
+@media (max-width: 600px) {
+  .profile-header-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .profile-info h2 {
+    font-size: 1.5rem;
+  }
+}
