@@ -16,14 +16,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig {
 
-    // Define que as senhas serão criptografadas antes de salvar no banco.
-    // Assim, se alguém ver o banco, não descobre a senha real do usuário.
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
 
-    // Configura toda a "portaria" de segurança do sistema.
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
