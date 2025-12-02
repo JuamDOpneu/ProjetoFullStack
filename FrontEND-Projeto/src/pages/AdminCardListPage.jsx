@@ -77,7 +77,7 @@ function AdminCardListPage() {
                 <span className="admin-card-theme">{card.theme}</span>
               </div>
 
-              {/* Botões de Ação */
+              {/* Botões de Ação */}
               <div className="admin-card-actions">
                 <Button 
                   variant="primary" 
